@@ -1,0 +1,13 @@
+spring:
+  application:
+    name: booknote
+  datasource:
+    url: jdbc:mysql://localhost:3306/booknote
+    username: root
+    password: raudi9601!
+    driver-class-name: com.mysql.cj.jdbc.Driver
+  jpa:
+    hibernate:
+      ddl-auto: update
+    show-sql: true
+    database-platform: org.hibernate.dialect.MySQLDialect
