@@ -18,11 +18,6 @@ public class BookEntity extends BaseEntity {
     private String title;
     private String author;
 
-    public BookEntity(String title,String author){
-        this.title=title;
-        this.author=author;
-    }
-
     public Book toBook(){
         return new Book(getId(),title,author,getCreateAt());
     }
