@@ -1,4 +1,4 @@
-package org.example.booknote.storage.book;
+package org.example.booknote.book.infrastructure;
 
 import org.springframework.data.jpa.repository.JpaRepository;
 

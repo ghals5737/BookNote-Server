@@ -1,21 +1,27 @@
-package org.example.booknote.storage;
+package org.example.booknote.book.infrastructure;
 
-import jakarta.persistence.GeneratedValue;
-import jakarta.persistence.GenerationType;
-import jakarta.persistence.Id;
-import jakarta.persistence.MappedSuperclass;
+import jakarta.persistence.*;
+import lombok.AccessLevel;
 import lombok.Getter;
+import lombok.NoArgsConstructor;
 import org.hibernate.annotations.CreationTimestamp;
 import org.hibernate.annotations.UpdateTimestamp;
 
 import java.time.LocalDateTime;
 
+@Entity
+@Table(name="books")
 @Getter
-@MappedSuperclass
-public class BaseEntity {
+@NoArgsConstructor(access = AccessLevel.PROTECTED)
+public class BookEntity {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
+
+    @Column(nullable = false)
+    private String title;
+
+    private String author;
 
     @CreationTimestamp
     private LocalDateTime createAt;
