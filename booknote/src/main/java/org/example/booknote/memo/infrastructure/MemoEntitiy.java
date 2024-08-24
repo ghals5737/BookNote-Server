@@ -6,6 +6,7 @@ import lombok.AccessLevel;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import org.example.booknote.book.infrastructure.BookEntity;
+import org.example.booknote.memo.domain.Memo;
 import org.example.booknote.user.infrastructure.UserEntity;
 import org.hibernate.annotations.CreationTimestamp;
 import org.hibernate.annotations.UpdateTimestamp;
@@ -25,10 +26,6 @@ public class MemoEntitiy {
     @JoinColumn(name = "book_id", nullable = false)
     private BookEntity book;
 
-    @ManyToOne
-    @JoinColumn(name = "user_id", nullable = false)
-    private UserEntity user;
-
     @Column(nullable = false)
     private String memo;
 
@@ -37,4 +34,24 @@ public class MemoEntitiy {
 
     @UpdateTimestamp
     private LocalDateTime updateAt;
+
+    public static MemoEntitiy from(Memo memo){
+        MemoEntitiy memoEntitiy= new MemoEntitiy();
+        memoEntitiy.id=memo.id();
+        memoEntitiy.book=BookEntity.from(memo.book());
+        memoEntitiy.memo=memo.memo();
+        memoEntitiy.createAt=memo.createAt();
+        memoEntitiy.updateAt=memo.updateAt();
+        return memoEntitiy;
+    }
+
+    public Memo toModel() {
+        return new Memo(
+                id,
+                book.toModel(),
+                memo,
+                createAt,
+                updateAt
+        );
+    }
 }

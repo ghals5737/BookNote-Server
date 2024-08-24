@@ -4,6 +4,7 @@ import jakarta.persistence.*;
 import lombok.AccessLevel;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
+import org.example.booknote.user.domain.User;
 import org.hibernate.annotations.CreationTimestamp;
 import org.hibernate.annotations.UpdateTimestamp;
 
@@ -32,4 +33,19 @@ public class UserEntity {
 
     @UpdateTimestamp
     private LocalDateTime updateAt;
+
+    public static UserEntity from(User user) {
+        UserEntity userEntity = new UserEntity();
+        userEntity.id=user.id();
+        userEntity.email=user.email();
+        userEntity.username=user.username();
+        userEntity.password=user.password();
+        userEntity.createAt=user.createAt();
+        userEntity.updateAt=user.updateAt();
+        return userEntity;
+    }
+
+    public User toModel() {
+        return new User(id, email, username, password, createAt, updateAt);
+    }
 }

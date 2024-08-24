@@ -4,6 +4,8 @@ import jakarta.persistence.*;
 import lombok.AccessLevel;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
+import org.example.booknote.book.domain.Book;
+import org.example.booknote.user.infrastructure.UserEntity;
 import org.hibernate.annotations.CreationTimestamp;
 import org.hibernate.annotations.UpdateTimestamp;
 
@@ -23,9 +25,28 @@ public class BookEntity {
 
     private String author;
 
+    @ManyToOne
+    @JoinColumn(name="user_id")
+    private UserEntity user;
+
     @CreationTimestamp
     private LocalDateTime createAt;
 
     @UpdateTimestamp
     private LocalDateTime updateAt;
+
+    public static BookEntity from(Book book) {
+        BookEntity bookEntity = new BookEntity();
+        bookEntity.id=book.id();
+        bookEntity.title=book.title();
+        bookEntity.author=book.author();
+        bookEntity.user=UserEntity.from(book.user());
+        bookEntity.createAt=book.createAt();
+        bookEntity.updateAt=book.updateAt();
+        return bookEntity;
+    }
+
+    public Book toModel(){
+        return new Book(id,title,author,user.toModel(),createAt,updateAt);
+    }
 }

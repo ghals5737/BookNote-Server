@@ -1,43 +1,38 @@
 package org.example.booknote.book.domain;
 
-import lombok.Builder;
-import lombok.Getter;
 import org.example.booknote.common.service.port.ClockHolder;
+import org.example.booknote.user.domain.User;
 
 import java.time.LocalDateTime;
 
-@Getter
-public class Book {
-    private final Long id;
-    private final String title;
-    private final String author;
-    private final LocalDateTime createAt;
-    private final LocalDateTime updateAt;
+public record Book(
+        Long id,
+        String title,
+        String author,
+        User user,
+        LocalDateTime createAt,
+        LocalDateTime updateAt
+) {
 
-    @Builder
-    public Book(Long id, String title, String author, LocalDateTime createAt, LocalDateTime updateAt) {
-        this.id = id;
-        this.title = title;
-        this.author = author;
-        this.createAt = createAt;
-        this.updateAt = updateAt;
-    }
-
-    public static Book from(BookCreate bookCreate, ClockHolder clockHolder) {
-        return Book.builder()
-                .title(bookCreate.getTitle())
-                .author(bookCreate.getAuthor())
-                .createAt(clockHolder.now())
-                .build();
+    public static Book from(User user,BookCreate bookCreate, ClockHolder clockHolder) {
+        return new Book(
+                null,
+                bookCreate.title(),
+                bookCreate.author(),
+                user,
+                clockHolder.now(),
+                null
+        );
     }
 
     public Book update(BookUpdate bookUpdate, ClockHolder clockHolder) {
-        return Book.builder()
-                .id(id)
-                .title(bookUpdate.getTitle())
-                .author(author)
-                .createAt(createAt)
-                .updateAt(clockHolder.now())
-                .build();
+        return new Book(
+                this.id,
+                bookUpdate.title(),
+                this.author,
+                this.user,
+                this.createAt,
+                clockHolder.now()
+        );
     }
 }
