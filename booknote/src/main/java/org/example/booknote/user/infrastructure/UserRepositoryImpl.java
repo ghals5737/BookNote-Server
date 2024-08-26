@@ -26,4 +26,9 @@ public class UserRepositoryImpl implements UserRepository {
     public User save(User user) {
         return null;
     }
+
+    @Override
+    public Optional<User> findByEmail(String username) {
+        return Optional.empty();
+    }
 }
