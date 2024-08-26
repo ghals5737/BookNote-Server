@@ -6,5 +6,5 @@ import org.example.booknote.user.domain.UserCreate;
 public interface UserService {
     User getUserById(long id);
     User create(UserCreate userCreate);
-
+    User login(String email, String password);
 }
