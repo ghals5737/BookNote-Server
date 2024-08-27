@@ -9,5 +9,5 @@ public interface UserService {
     User create(UserCreate userCreate);
     User login(UserLogin userLogin);
     User findByEmail(String email);
-    Boolean authenticate(String email, String password);
+    Boolean authenticate(User user,UserLogin userLogin);
 }

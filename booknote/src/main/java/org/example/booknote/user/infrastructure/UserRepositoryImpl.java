@@ -1,10 +1,10 @@
 package org.example.booknote.user.infrastructure;
 
 import lombok.RequiredArgsConstructor;
+import org.example.booknote.common.domain.exception.ResourceNotFoundException;
 import org.example.booknote.user.domain.User;
 import org.example.booknote.user.service.port.UserRepository;
 import org.springframework.stereotype.Repository;
-
 import java.util.Optional;
 
 @Repository
@@ -14,21 +14,21 @@ public class UserRepositoryImpl implements UserRepository {
 
     @Override
     public User getById(long id) {
-        return null;
+        return findById(id).orElseThrow(()->new ResourceNotFoundException("Users",id));
     }
 
     @Override
     public Optional<User> findById(long id) {
-        return Optional.empty();
+        return userJpaRepository.findById(id).map(UserEntity::toModel);
     }
 
     @Override
     public User save(User user) {
-        return null;
+        return userJpaRepository.save(UserEntity.from(user)).toModel();
     }
 
     @Override
-    public Optional<User> findByEmail(String username) {
-        return Optional.empty();
+    public Optional<User> findByEmail(String email) {
+        return userJpaRepository.findByEmail(email).map(UserEntity::toModel);
     }
 }

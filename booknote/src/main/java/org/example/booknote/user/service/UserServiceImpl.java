@@ -33,6 +33,10 @@ public class UserServiceImpl implements UserService {
 
     @Override
     public User login(UserLogin userLogin) {
+        User user=findByEmail(userLogin.email());
+        if(authenticate(user,userLogin)){
+            return user;
+        }
         return null;
     }
 
@@ -42,8 +46,7 @@ public class UserServiceImpl implements UserService {
     }
 
     @Override
-    public Boolean authenticate(String email, String password) {
-        User user=findByEmail(email);
-        return passwordEncoder.matches(password,user.password());
+    public Boolean authenticate(User user,UserLogin userLogin) {
+        return passwordEncoder.matches(userLogin.password(), user.password());
     }
 }

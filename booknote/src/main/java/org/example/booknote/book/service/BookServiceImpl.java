@@ -49,7 +49,6 @@ public class BookServiceImpl implements BookService {
 
     @Override
     public List<Book> getBooksByUserId(long userId) {
-
         return bookRepository.findByUserId(userId);
     }
 }

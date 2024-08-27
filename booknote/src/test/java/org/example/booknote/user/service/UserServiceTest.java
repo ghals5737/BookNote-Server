@@ -7,6 +7,7 @@ import org.example.booknote.mock.TestClockHolder;
 import org.example.booknote.mock.TestPasswordEncoder;
 import org.example.booknote.user.domain.User;
 import org.example.booknote.user.domain.UserCreate;
+import org.example.booknote.user.domain.UserLogin;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
@@ -56,11 +57,12 @@ public class UserServiceTest {
     @Test
     public void UserLoginDto를_사용하여_로그인인증을한다(){
         //given
+        UserLogin userLogin=new UserLogin("test@test.com", "test");
         UserCreate userCreate = new UserCreate("test@test.com", "test", "test");
-        userService.create(userCreate);
+        User user=userService.create(userCreate);
 
         //when
-        Boolean loginStatus = userService.authenticate("test@test.com", "test");
+        Boolean loginStatus = userService.authenticate(user, userLogin);
 
         //then
         assertThat(loginStatus).isTrue();
