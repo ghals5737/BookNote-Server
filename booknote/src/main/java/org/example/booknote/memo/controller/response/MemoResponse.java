@@ -7,7 +7,7 @@ import java.time.LocalDateTime;
 
 public record MemoResponse(
         Long id,
-        BookResponse bookResponse,
+        BookResponse book,
         String memo,
         LocalDateTime createAt,
         LocalDateTime updateAt
