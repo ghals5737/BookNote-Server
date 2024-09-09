@@ -5,10 +5,7 @@ FROM openjdk:18-jdk-alpine
 WORKDIR /app
 
 # Step 3: Copy the Gradle wrapper files and the source code to the container
-COPY gradlew gradlew
-COPY gradle gradle
-COPY build.gradle settings.gradle /app/
-COPY src /app/src
+COPY . .
 
 # Step 4: Grant execution permissions to the Gradle wrapper
 RUN chmod +x ./gradlew
