@@ -1,7 +1,7 @@
 steps:
   # Step 1: Build the Docker image for the Spring Boot app
   - name: 'gcr.io/cloud-builders/docker'
-    args: ['build', '-t', 'us-central1.pkg.dev/booknote', '.']
+    args: ['build', '-t', 'us-central1.pkg.dev/booknote''-f', 'booknote/Dockerfile', '.']
 
   # Step 2: Push the Docker image to Google Container Registry (GCR)
   - name: 'gcr.io/cloud-builders/docker'
