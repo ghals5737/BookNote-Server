@@ -5,10 +5,12 @@ FROM openjdk:18-jdk-alpine as build
 WORKDIR /app
 
 # Copy all project files to the container
-COPY . .
+COPY gradlew .
+COPY gradle gradle
 
 # Grant execution permission to Gradle wrapper
 RUN chmod +x ./gradlew
+COPY . .
 
 # Build the project, skipping tests
 RUN ./gradlew build -x test
