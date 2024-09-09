@@ -1,16 +1,16 @@
 steps:
   # Step 1: Build the Docker image for the Spring Boot app
-  - name: 'gcr.io/cloud-builders/docker'
-    args: ['build', '-t', 'gcr.io/$PROJECT_ID/booknote', '.']
+  - name: 'us-central1.pkg.dev/cloud-builders/docker'
+    args: ['build', '-t', 'us-central1.pkg.dev/$PROJECT_ID/booknote', '.']
 
   # Step 2: Push the Docker image to Google Container Registry (GCR)
-  - name: 'gcr.io/cloud-builders/docker'
-    args: ['push', 'gcr.io/$PROJECT_ID/booknote']
+  - name: 'us-central1.pkg.dev/cloud-builders/docker'
+    args: ['push', 'us-central1.pkg.dev/$PROJECT_ID/booknote']
 
   # Step 3: Deploy the Docker image to Cloud Run
-  - name: 'gcr.io/google.com/cloudsdktool/cloud-sdk'
+  - name: 'us-central1.pkg.dev/google.com/cloudsdktool/cloud-sdk'
     entrypoint: 'gcloud'
-    args: ['run', 'deploy', 'booknote', '--image', 'gcr.io/$PROJECT_ID/booknote', '--platform', 'managed', '--region', 'us-central1', '--allow-unauthenticated']
+    args: ['run', 'deploy', 'booknote', '--image', 'us-central1.pkg.dev/$PROJECT_ID/booknote', '--platform', 'managed', '--region', 'us-central1', '--allow-unauthenticated']
 options:
   logging: NONE
 
@@ -21,4 +21,4 @@ substitutions:
 # Optional: Define where the artifacts will be stored (if needed)
 artifacts:
   images:
-    - 'gcr.io/$PROJECT_ID/booknote'
+    - 'us-central1.pkg.dev/$PROJECT_ID/booknote'
