@@ -1,23 +1,29 @@
-# Step 1: Use a base image with OpenJDK 18
-FROM openjdk:18-jdk-alpine
+# Stage 1: Build the Spring Boot application using Gradle
+FROM openjdk:18-jdk-alpine as build
 
-# Step 2: Set the working directory inside the container
+# Set the working directory
 WORKDIR /app
 
-# Step 3: Copy the Gradle wrapper files and the source code to the container
+# Copy all project files to the container
 COPY . .
 
-# Step 4: Grant execution permissions to the Gradle wrapper
+# Grant execution permission to Gradle wrapper
 RUN chmod +x ./gradlew
 
-# Step 5: Build the project using the Gradle wrapper
+# Build the project, skipping tests
 RUN ./gradlew build -x test
 
-# Step 6: Copy the built JAR file to run it
-COPY build/libs/*.jar /app/booknote.jar
+# Stage 2: Create the final image with the built JAR
+FROM openjdk:18-jdk-alpine
 
-# Step 7: Expose the port (8080 is the default Spring Boot port)
+# Set the working directory
+WORKDIR /app
+
+# Copy the built JAR file from the previous build stage
+COPY --from=build /app/build/libs/*.jar /app/booknote.jar
+
+# Expose the port that Spring Boot runs on (8080 by default)
 EXPOSE 8080
 
-# Step 8: Run the Spring Boot application
+# Run the application
 CMD ["java", "-jar", "/app/booknote.jar"]
