@@ -4,7 +4,8 @@ spring:
   datasource:
     url: jdbc:mysql://localhost:3306/booknote
     username: root
-    password: root1234
+    #password: root1234
+    password: raudi9601!
     driver-class-name: com.mysql.cj.jdbc.Driver
   jpa:
     hibernate:
