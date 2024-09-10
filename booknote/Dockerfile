@@ -3,6 +3,7 @@ FROM gradle:7.6-jdk-alpine as build
 
 WORKDIR /app/booknote
 COPY ./booknote .
+RUN chmod +x ./gradlew
 RUN ./gradlew clean build -x test --no-daemon
 
 # Stage 2: Run the application using JDK
