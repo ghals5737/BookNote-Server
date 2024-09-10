@@ -1,7 +1,7 @@
 # Stage 1: Build the Spring Boot application using Gradle
 FROM gradle:7.6-jdk-alpine as build
 
-WORKDIR /app
+WORKDIR /app/booknote
 COPY ./booknote .
 RUN chmod +x ./gradlew
 RUN ./gradlew clean build -x test
@@ -9,8 +9,7 @@ RUN ./gradlew clean build -x test
 FROM openjdk:18-jdk-alpine
 
 WORKDIR /app
-
-COPY --from=build /app/build/libs/*.jar /app/booknote.jar
+COPY --from=build /app/booknote/build/libs/*.jar /app/booknote.jar  # build 경로 수정
 
 EXPOSE 8080
 
