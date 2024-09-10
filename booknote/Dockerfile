@@ -9,7 +9,7 @@ RUN ./gradlew clean build -x test
 FROM openjdk:18-jdk-alpine
 
 WORKDIR /app
-COPY --from=build /app/booknote/build/libs/*.jar /app/booknote.jar  # build 경로 수정
+COPY --from=build /app/booknote/build/libs/*.jar /app/booknote.jar
 
 EXPOSE 8080
 
