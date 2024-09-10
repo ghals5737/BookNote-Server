@@ -2,7 +2,7 @@
 FROM gradle:7.6-jdk-alpine as build
 
 WORKDIR /app
-COPY ./booknote
+COPY ./booknote .
 RUN chmod +x ./gradlew
 RUN ./gradlew clean build -x test
 
