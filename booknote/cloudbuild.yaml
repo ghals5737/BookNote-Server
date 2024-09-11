@@ -3,18 +3,18 @@ steps:
   - name: 'gcr.io/cloud-builders/docker'
     args: [
       'build',
-      '-t', 'us-central1-docker.pkg.dev/${PROJECT_ID}/booknote/booknote_image:latest',
+      '-t', 'us-central1-docker.pkg.dev/${PROJECT_ID}/booknote/booknote_image',
       '-f', 'booknote/Dockerfile', '.'
     ]
 
   # Step 2: Google Artifact Registry (GAR)에 Docker 이미지 푸시
   - name: 'gcr.io/cloud-builders/docker'
-    args: ['push', 'us-central1-docker.pkg.dev/${PROJECT_ID}/booknote/booknote_image:latest']
+    args: ['push', 'us-central1-docker.pkg.dev/${PROJECT_ID}/booknote/booknote_image']
 
   # Step 3: Cloud Run에 Docker 이미지 배포
   - name: 'gcr.io/google.com/cloudsdktool/cloud-sdk'
     entrypoint: 'gcloud'
-    args: ['run', 'deploy', 'booknote', '--image', 'us-central1-docker.pkg.dev/${PROJECT_ID}/booknote/booknote_image:latest', '--platform', 'managed', '--region', 'us-central1', '--allow-unauthenticated']
+    args: ['run', 'deploy', 'booknote', '--image', 'us-central1-docker.pkg.dev/${PROJECT_ID}/booknote/booknote_image', '--platform', 'managed', '--region', 'us-central1', '--allow-unauthenticated']
 
 options:
   logging: CLOUD_LOGGING_ONLY
