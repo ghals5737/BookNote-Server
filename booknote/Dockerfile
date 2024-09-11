@@ -1,5 +1,5 @@
 # Stage 1: Build the Spring Boot application using Gradle
-FROM  --platform=linux/amd64 gradle:7.5.1-jdk18 AS builder
+FROM  --platform=linux/amd64 gradle:7.5.1-jdk18 AS build
 
 WORKDIR /app/booknote
 COPY ./booknote .
