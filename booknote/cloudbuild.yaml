@@ -3,18 +3,18 @@ steps:
   - name: 'gcr.io/cloud-builders/docker'
     args: [
       'build',
-      '-t', 'us-central1.pkg.dev/$PROJECT_ID/booknote/booknote_image:latest',
+      '-t', 'us-central1.pkg.dev/booknote/booknote_image:latest',
       '-f', 'booknote/Dockerfile', '.'
     ]
 
   # Step 2: Push the Docker image to Google Container Registry (GCR)
   - name: 'gcr.io/cloud-builders/docker'
-    args: ['push', 'us-central1.pkg.dev/$PROJECT_ID/booknote/booknote_image:latest']
+    args: ['push', 'us-central1.pkg.dev/booknote/booknote_image:latest']
 
   # Step 3: Deploy the Docker image to Cloud Run
   - name: 'gcr.io/google.com/cloudsdktool/cloud-sdk'
     entrypoint: 'gcloud'
-    args: ['run', 'deploy', 'booknote', '--image', 'us-central1.pkg.dev/$PROJECT_ID/booknote/booknote_image:latest', '--platform', 'managed', '--region', 'us-central1', '--allow-unauthenticated']
+    args: ['run', 'deploy', 'booknote', '--image', 'us-central1.pkg.dev/booknote/booknote_image:latest', '--platform', 'managed', '--region', 'us-central1', '--allow-unauthenticated']
 options:
   logging: CLOUD_LOGGING_ONLY
 
@@ -25,4 +25,4 @@ substitutions:
 # Optional: Define where the artifacts will be stored (if needed)
 artifacts:
   images:
-    - 'us-central1.pkg.dev/$PROJECT_ID/booknote/booknote_image:latest'
+    - 'us-central1.pkg.dev/booknote/booknote_image:latest'
