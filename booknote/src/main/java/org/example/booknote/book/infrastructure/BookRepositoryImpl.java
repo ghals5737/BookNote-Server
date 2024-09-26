@@ -21,7 +21,7 @@ public class BookRepositoryImpl implements BookRepository {
 
     @Override
     public Book getById(long id) {
-        return findById(id).orElseThrow(()->new ResourceNotFoundException("Memos",id));
+        return findById(id).orElseThrow(()->new ResourceNotFoundException("Books",id));
     }
 
     @Override
