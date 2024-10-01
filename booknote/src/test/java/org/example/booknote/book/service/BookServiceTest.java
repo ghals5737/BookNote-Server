@@ -1,6 +1,6 @@
 package org.example.booknote.book.service;
 
-    import static org.assertj.core.api.AssertionsForClassTypes.assertThat;
+import static org.assertj.core.api.AssertionsForClassTypes.assertThat;
 
 import org.example.booknote.book.domain.Book;
 import org.example.booknote.book.domain.BookCreate;
