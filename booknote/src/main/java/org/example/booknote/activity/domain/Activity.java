@@ -4,11 +4,10 @@ import java.time.LocalDateTime;
 
 public record Activity(
         Long id,
-        String action,
+        ActionType action,
         Long user_id,
         Long book_id,
         Long memo_id,
-        String description,
         LocalDateTime timestamp
 ) {
 }
