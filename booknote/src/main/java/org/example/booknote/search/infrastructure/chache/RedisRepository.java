@@ -1,7 +1,6 @@
 package org.example.booknote.search.infrastructure.chache;
 
 import org.springframework.data.redis.core.StringRedisTemplate;
-import org.springframework.stereotype.Component;
 import org.springframework.stereotype.Repository;
 
 import java.util.concurrent.TimeUnit;
