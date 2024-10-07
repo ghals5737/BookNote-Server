@@ -24,7 +24,12 @@ public class FakeActivityRepository implements ActivityRepository {
                     null,
                     activity.timestamp()
             );
+            activities.add(newActivity);
+            return newActivity;
         }
-        return null;
+
+        activities.removeIf(item -> item.id().equals(activity.id()));
+        activities.add(activity);
+        return activity;
     }
 }

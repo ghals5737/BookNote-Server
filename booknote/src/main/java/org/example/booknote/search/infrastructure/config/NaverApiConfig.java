@@ -1,4 +1,4 @@
-package org.example.booknote.config;
+package org.example.booknote.search.infrastructure.config;
 
 import lombok.Getter;
 import org.springframework.beans.factory.annotation.Value;
