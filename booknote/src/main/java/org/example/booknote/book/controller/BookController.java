@@ -46,4 +46,11 @@ public class BookController {
                 .ok()
                 .body(bookService.getBooksByUserId(id).stream().map(BookResponse::from).toList());
     }
+
+    @DeleteMapping("/{id}")
+    public ResponseEntity<BookResponse> delete(@PathVariable long id){
+        return ResponseEntity
+                .ok()
+                .body(BookResponse.from(bookService.delete(id)));
+    }
 }

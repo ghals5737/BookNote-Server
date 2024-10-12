@@ -8,7 +8,8 @@ import java.time.LocalDateTime;
 public record MemoResponse(
         Long id,
         BookResponse book,
-        String memo,
+        String title,
+        String content,
         LocalDateTime createAt,
         LocalDateTime updateAt
 ) {
@@ -16,7 +17,8 @@ public record MemoResponse(
         return new MemoResponse(
                 memo.id(),
                 BookResponse.from(memo.book()),
-                memo.memo(),
+                memo.title(),
+                memo.content(),
                 memo.createAt(),
                 memo.updateAt()
         );

@@ -28,11 +28,11 @@ public class MemoRepositoryImpl implements MemoRepository {
 
     @Override
     public List<Memo> findByBookId(long bookId) {
-        return memoJpaRepository.findByBook_Id(bookId).stream().map(MemoEntitiy::toModel).toList();
+        return memoJpaRepository.findByBook_IdAndIsDeleted(bookId,false).stream().map(MemoEntitiy::toModel).toList();
     }
 
     @Override
-    public void deleteById(long id) {
-
+    public Memo delete(Memo memo) {
+        return memoJpaRepository.save(MemoEntitiy.fromDelete(memo)).toModel();
     }
 }

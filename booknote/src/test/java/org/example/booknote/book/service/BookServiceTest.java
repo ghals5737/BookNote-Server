@@ -47,24 +47,24 @@ public class BookServiceTest {
         Book book1=new Book(
                 1L,
                 "book1",
-                "test1",
                 user1,
+                false,
                 LocalDateTime.now(),
                 LocalDateTime.now()
         );
         Book book2=new Book(
                 2L,
                 "book2",
-                "test2",
                 user1,
+                false,
                 LocalDateTime.now(),
                 LocalDateTime.now()
         );
         Book book3=new Book(
                 3L,
                 "book3",
-                "test3",
                 user2,
+                false,
                 LocalDateTime.now(),
                 LocalDateTime.now()
         );
@@ -82,7 +82,6 @@ public class BookServiceTest {
         Book result=bookService.getBookById(1);
         //then
         assertThat(result.title()).isEqualTo("book1");
-        assertThat(result.author()).isEqualTo("test1");
     }
 
     @Test
@@ -94,29 +93,26 @@ public class BookServiceTest {
         assertThat(results.size()).isEqualTo(2);
         assertThat(results.get(0).id()).isEqualTo(1L);
         assertThat(results.get(0).title()).isEqualTo("book1");
-        assertThat(results.get(0).author()).isEqualTo("test1");
         assertThat(results.get(1).id()).isEqualTo(2L);
         assertThat(results.get(1).title()).isEqualTo("book2");
-        assertThat(results.get(1).author()).isEqualTo("test2");
     }
 
     @Test
     public void BookCreateDto를_사용하여_책을생성한다(){
         //given
-        BookCreate bookCreate=new BookCreate(1,"test5","aaa");
+        BookCreate bookCreate=new BookCreate(1,"test5",false);
 
         //when
         Book result=bookService.create(bookCreate);
 
         //then
         assertThat(result.title()).isEqualTo("test5");
-        assertThat(result.author()).isEqualTo("aaa");
     }
 
     @Test
     public void BookUpdateDto를_사용하여_책을수정한다(){
         //given
-        BookUpdate bookUpdate=new BookUpdate("update");
+        BookUpdate bookUpdate=new BookUpdate("update",false);
 
         //when
         Book result=bookService.update(1,bookUpdate);

@@ -5,6 +5,6 @@ import lombok.Builder;
 import lombok.Getter;
 
 
-public record BookUpdate(String title) {
+public record BookUpdate(String title,boolean isPinned) {
 
 }

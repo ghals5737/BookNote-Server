@@ -41,14 +41,15 @@ public class MemoServiceTest {
         Book book1=new Book(
                 1L,
                 "book1",
-                "test1",
                 user1,
+                false,
                 LocalDateTime.now(),
                 LocalDateTime.now()
         );
         Memo memo1=new Memo(
                 1L,
                 book1,
+                "title1",
                 "memo1",
                 LocalDateTime.now(),
                 LocalDateTime.now()
@@ -56,6 +57,7 @@ public class MemoServiceTest {
         Memo memo2=new Memo(
                 2L,
                 book1,
+                "title2",
                 "memo2",
                 LocalDateTime.now(),
                 LocalDateTime.now()
@@ -63,6 +65,7 @@ public class MemoServiceTest {
         Memo memo3=new Memo(
                 3L,
                 book1,
+                "title3",
                 "memo3",
                 LocalDateTime.now(),
                 LocalDateTime.now()
@@ -70,6 +73,7 @@ public class MemoServiceTest {
         Memo memo4=new Memo(
                 4L,
                 book1,
+                "title4",
                 "memo4",
                 LocalDateTime.now(),
                 LocalDateTime.now()
@@ -87,7 +91,7 @@ public class MemoServiceTest {
         //when
         Memo result=memoService.getMemoById(1);
         //then
-        assertThat(result.memo()).isEqualTo("memo1");
+        assertThat(result.content()).isEqualTo("memo1");
     }
 
     @Test
@@ -98,34 +102,36 @@ public class MemoServiceTest {
 
         //then
         assertThat(results.size()).isEqualTo(4);
-        assertThat(results.get(0).memo()).isEqualTo("memo1");
-        assertThat(results.get(1).memo()).isEqualTo("memo2");
-        assertThat(results.get(2).memo()).isEqualTo("memo3");
-        assertThat(results.get(3).memo()).isEqualTo("memo4");
+        assertThat(results.get(0).content()).isEqualTo("memo1");
+        assertThat(results.get(1).content()).isEqualTo("memo2");
+        assertThat(results.get(2).content()).isEqualTo("memo3");
+        assertThat(results.get(3).content()).isEqualTo("memo4");
     }
 
     @Test
     public void MemoCreateDto를_사용하여_메모를_저장한다(){
         //given
-        MemoCreate memoCreate=new MemoCreate(1,"create");
+        MemoCreate memoCreate=new MemoCreate(1,"title1","create");
 
         //when
         Memo result=memoService.create(memoCreate);
 
         //then
-        assertThat(result.memo()).isEqualTo("create");
+        assertThat(result.title()).isEqualTo("title1");
+        assertThat(result.content()).isEqualTo("create");
     }
 
     @Test
     public void MemoUpdatseDto를_사용하여_메모를_수정한다(){
         //given
-        MemoUpdate memoUpdate=new MemoUpdate("update");
+        MemoUpdate memoUpdate=new MemoUpdate("title","update");
 
         //when
         Memo result=memoService.update(1,memoUpdate);
 
         //then
-        assertThat(result.memo()).isEqualTo("update");
+        assertThat(result.title()).isEqualTo("title1");
+        assertThat(result.content()).isEqualTo("update");
     }
 
     @Test

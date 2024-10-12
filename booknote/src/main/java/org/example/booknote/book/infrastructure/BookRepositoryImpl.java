@@ -31,11 +31,11 @@ public class BookRepositoryImpl implements BookRepository {
 
     @Override
     public List<Book> findByUserId(long userId) {
-        return bookJpaRepository.findByUser_Id(userId).stream().map(BookEntity::toModel).toList();
+        return bookJpaRepository.findByUser_IdAndIsDeleted(userId,false).stream().map(BookEntity::toModel).toList();
     }
 
     @Override
-    public void deleteById(long id) {
-
+    public Book delete(Book book) {
+        return  bookJpaRepository.save(BookEntity.fromDelete(book)).toModel();
     }
 }

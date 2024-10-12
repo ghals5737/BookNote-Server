@@ -27,7 +27,13 @@ public class MemoEntitiy {
     private BookEntity book;
 
     @Column(nullable = false)
-    private String memo;
+    private String title;
+
+    @Column(nullable = false)
+    private String content;
+
+    @Column(nullable = false)
+    private boolean isDeleted;
 
     @CreationTimestamp
     private LocalDateTime createAt;
@@ -39,7 +45,21 @@ public class MemoEntitiy {
         MemoEntitiy memoEntitiy= new MemoEntitiy();
         memoEntitiy.id=memo.id();
         memoEntitiy.book=BookEntity.from(memo.book());
-        memoEntitiy.memo=memo.memo();
+        memoEntitiy.title=memo.title();
+        memoEntitiy.content=memo.content();
+        memoEntitiy.isDeleted=false;
+        memoEntitiy.createAt=memo.createAt();
+        memoEntitiy.updateAt=memo.updateAt();
+        return memoEntitiy;
+    }
+
+    public static MemoEntitiy fromDelete(Memo memo){
+        MemoEntitiy memoEntitiy= new MemoEntitiy();
+        memoEntitiy.id=memo.id();
+        memoEntitiy.book=BookEntity.from(memo.book());
+        memoEntitiy.title=memo.title();
+        memoEntitiy.content=memo.content();
+        memoEntitiy.isDeleted=true;
         memoEntitiy.createAt=memo.createAt();
         memoEntitiy.updateAt=memo.updateAt();
         return memoEntitiy;
@@ -49,7 +69,8 @@ public class MemoEntitiy {
         return new Memo(
                 id,
                 book.toModel(),
-                memo,
+                title,
+                content,
                 createAt,
                 updateAt
         );

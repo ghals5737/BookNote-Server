@@ -22,11 +22,11 @@ public class UserEntity {
     @Column(nullable = false)
     private String email;
 
-    @Column(nullable = false)
-    private String username;
+    @Column(nullable = true)
+    private String name;
 
-    @Column(nullable = false)
-    private String password;
+    @Column(nullable = true)
+    private String picture;
 
     @CreationTimestamp
     private LocalDateTime createAt;
@@ -38,14 +38,14 @@ public class UserEntity {
         UserEntity userEntity = new UserEntity();
         userEntity.id=user.id();
         userEntity.email=user.email();
-        userEntity.username=user.username();
-        userEntity.password=user.password();
+        userEntity.name=user.name();
+        userEntity.picture=user.picture();
         userEntity.createAt=user.createAt();
         userEntity.updateAt=user.updateAt();
         return userEntity;
     }
 
     public User toModel() {
-        return new User(id, email, username, password, createAt, updateAt);
+        return new User(id, email, name, picture, createAt, updateAt);
     }
 }

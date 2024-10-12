@@ -34,8 +34,8 @@ public class BookControllerTest {
         testController.bookRepository.save(new Book(
                 1L,
                 "book1",
-                "test1",
                 user,
+                false,
                 LocalDateTime.now(),
                 LocalDateTime.now()
         ));
@@ -45,7 +45,6 @@ public class BookControllerTest {
         assertThat(result.getStatusCode()).isEqualTo(HttpStatusCode.valueOf(200));
         assertThat(result.getBody()).isNotNull();
         assertThat(result.getBody().title()).isEqualTo("book1");
-        assertThat(result.getBody().author()).isEqualTo("test1");
     }
 
     @Test
@@ -77,13 +76,13 @@ public class BookControllerTest {
         testController.bookRepository.save(new Book(
                 1L,
                 "book1",
-                "test1",
                 user,
+                false,
                 LocalDateTime.now(),
                 LocalDateTime.now()
         ));
         //when
-        ResponseEntity<BookResponse> result=testController.bookController.update(1,new BookUpdate("update"));
+        ResponseEntity<BookResponse> result=testController.bookController.update(1,new BookUpdate("update",true));
         //then
         assertThat(result.getStatusCode()).isEqualTo(HttpStatusCode.valueOf(200));
         assertThat(result.getBody()).isNotNull();

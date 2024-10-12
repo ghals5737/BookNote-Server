@@ -46,4 +46,11 @@ public class MemoController {
                 .ok()
                 .body(memoService.getMemosByBookId(id).stream().map(MemoResponse::from).toList());
     }
+
+    @DeleteMapping("/{id}")
+    public ResponseEntity<MemoResponse> delete(@PathVariable long id){
+        return ResponseEntity
+                .ok()
+                .body(MemoResponse.from(memoService.delete(id)));
+    }
 }

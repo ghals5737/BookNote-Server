@@ -9,7 +9,8 @@ import java.time.LocalDateTime;
 public record Memo(
         Long id,
         Book book,
-        String memo,
+        String title,
+        String content,
         LocalDateTime createAt,
         LocalDateTime updateAt
 ) {
@@ -17,9 +18,10 @@ public record Memo(
         return new Memo(
                 null,
                 book,
-                memoCreate.memo(),
+                memoCreate.title(),
+                memoCreate.content(),
                 clockHolder.now(),
-                null
+                clockHolder.now()
         );
     }
 
@@ -27,7 +29,19 @@ public record Memo(
         return new Memo(
                 this.id,
                 this.book,
-                memoUpdate.memo(),
+                memoUpdate.title(),
+                memoUpdate.content(),
+                this.createAt,
+                clockHolder.now()
+        );
+    }
+
+    public Memo delete(ClockHolder clockHolder) {
+        return new Memo(
+                this.id,
+                this.book,
+                this.title,
+                this.content,
                 this.createAt,
                 clockHolder.now()
         );

@@ -45,8 +45,10 @@ public class MemoServiceImpl implements MemoService {
     }
 
     @Override
-    public void delete(long id) {
-
+    public Memo delete(long id) {
+        Memo memo=getMemoById(id);
+        memo=memo.delete(clockHolder);
+        return memoRepository.delete(memo);
     }
 
     @Override

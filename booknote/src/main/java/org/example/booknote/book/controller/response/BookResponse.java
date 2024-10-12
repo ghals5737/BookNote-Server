@@ -10,7 +10,7 @@ import java.time.LocalDateTime;
 public record BookResponse(
         Long id,
         String title,
-        String author,
+        boolean isPinned,
         UserResponse user,
         LocalDateTime createAt,
         LocalDateTime updateAt
@@ -19,7 +19,7 @@ public record BookResponse(
         return new BookResponse(
                 book.id(),
                 book.title(),
-                book.author(),
+                book.isPinned(),
                 UserResponse.from(book.user()),
                 book.createAt(),
                 book.updateAt()

@@ -10,6 +10,6 @@ public interface MemoService {
     Memo getMemoById(long id);
     Memo create(MemoCreate memoCreate);
     Memo update(long id,MemoUpdate memoUpdate);
-    void delete(long id);
+    Memo delete(long id);
     List<Memo> getMemosByBookId(long bookId);
 }

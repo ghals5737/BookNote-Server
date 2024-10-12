@@ -9,5 +9,5 @@ public interface MemoRepository {
     Memo save(Memo memo);
     Optional<Memo> findById(long id);
     List<Memo> findByBookId(long bookId);
-    void deleteById(long id);
+    Memo delete(Memo memo);
 }

@@ -25,9 +25,9 @@ public class UserController {
     }
 
     @PostMapping("/login")
-    public ResponseEntity<UserResponse> login(@RequestBody UserLogin userLogin) {
+    public ResponseEntity<String> login(@RequestBody UserCreate userCreate) {
         return ResponseEntity
                 .ok()
-                .body(UserResponse.from(userService.login(userLogin)));
+                .body(userService.login(userCreate));
     }
 }

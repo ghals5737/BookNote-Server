@@ -8,8 +8,8 @@ import java.time.LocalDateTime;
 public record Book(
         Long id,
         String title,
-        String author,
         User user,
+        boolean isPinned,
         LocalDateTime createAt,
         LocalDateTime updateAt
 ) {
@@ -18,10 +18,10 @@ public record Book(
         return new Book(
                 null,
                 bookCreate.title(),
-                bookCreate.author(),
                 user,
+                bookCreate.isPinned(),
                 clockHolder.now(),
-                null
+                clockHolder.now()
         );
     }
 
@@ -29,8 +29,19 @@ public record Book(
         return new Book(
                 this.id,
                 bookUpdate.title(),
-                this.author,
                 this.user,
+                bookUpdate.isPinned(),
+                this.createAt,
+                clockHolder.now()
+        );
+    }
+
+    public Book delete(ClockHolder clockHolder) {
+        return new Book(
+                this.id,
+                this.title(),
+                this.user,
+                this.isPinned(),
                 this.createAt,
                 clockHolder.now()
         );

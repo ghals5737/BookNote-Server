@@ -12,6 +12,8 @@ import org.springframework.web.bind.annotation.RestController;
 
 import java.io.UnsupportedEncodingException;
 import java.util.List;
+import java.util.concurrent.atomic.AtomicInteger;
+import java.util.concurrent.atomic.AtomicLong;
 
 @RestController
 @RequestMapping("/api/search")
@@ -22,8 +24,12 @@ public class SearchController {
 
     @GetMapping("/books")
     public ResponseEntity<List<BookSearchResponse>> searchBooks(@RequestParam String query) {
+        AtomicInteger counter = new AtomicInteger(0);
+
         return ResponseEntity
                 .ok()
-                .body(searchService.searchBooks(query).stream().map(BookSearchResponse::from).toList());
+                .body(searchService.searchBooks(query).stream()
+                        .map(bookSearch -> BookSearchResponse.from(bookSearch,counter.getAndIncrement()))
+                        .toList());
     }
 }

@@ -43,8 +43,10 @@ public class BookServiceImpl implements BookService {
     }
 
     @Override
-    public void delete(long id) {
-
+    public Book delete(long id) {
+        Book book= getBookById(id);
+        book=book.delete(clockHolder);
+        return bookRepository.delete(book);
     }
 
     @Override

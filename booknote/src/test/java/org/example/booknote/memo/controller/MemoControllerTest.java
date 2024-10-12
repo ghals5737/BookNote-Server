@@ -34,14 +34,15 @@ public class MemoControllerTest {
         Book book1=new Book(
                 1L,
                 "book1",
-                "test1",
                 user1,
+                false,
                 LocalDateTime.now(),
                 LocalDateTime.now()
         );
         Memo memo1=new Memo(
                 1L,
                 book1,
+                "title1",
                 "memo1",
                 LocalDateTime.now(),
                 LocalDateTime.now()
@@ -54,7 +55,7 @@ public class MemoControllerTest {
         //then
         assertThat(result.getStatusCode()).isEqualTo(HttpStatusCode.valueOf(200));
         assertThat(result.getBody()).isNotNull();
-        assertThat(result.getBody().memo()).isEqualTo("memo1");
+        assertThat(result.getBody().content()).isEqualTo("memo1");
     }
 
     @Test
@@ -85,14 +86,15 @@ public class MemoControllerTest {
         Book book1=new Book(
                 1L,
                 "book1",
-                "test1",
                 user1,
+                false,
                 LocalDateTime.now(),
                 LocalDateTime.now()
         );
         Memo memo1=new Memo(
                 1L,
                 book1,
+                "title1",
                 "memo1",
                 LocalDateTime.now(),
                 LocalDateTime.now()
@@ -101,10 +103,10 @@ public class MemoControllerTest {
         testController.bookRepository.save(book1);
         testController.memoRepository.save(memo1);
         //when
-        ResponseEntity<MemoResponse> result=testController.memoController.update(1,new MemoUpdate("update"));
+        ResponseEntity<MemoResponse> result=testController.memoController.update(1,new MemoUpdate("update","update"));
         //then
         assertThat(result.getStatusCode()).isEqualTo(HttpStatusCode.valueOf(200));
         assertThat(result.getBody()).isNotNull();
-        assertThat(result.getBody().memo()).isEqualTo("update");
+        assertThat(result.getBody().content()).isEqualTo("update");
     }
 }
