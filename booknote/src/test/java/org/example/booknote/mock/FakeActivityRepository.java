@@ -1,6 +1,5 @@
 package org.example.booknote.mock;
 
-import org.example.booknote.activity.domain.ActionType;
 import org.example.booknote.activity.domain.Activity;
 import org.example.booknote.activity.service.port.ActivityRepository;
 

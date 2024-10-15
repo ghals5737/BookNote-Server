@@ -50,7 +50,7 @@ public class BookServiceImpl implements BookService {
     }
 
     @Override
-    public List<Book> getBooksByUserId(long userId) {
-        return bookRepository.findByUserId(userId);
+    public List<Book> getBooksByUserIdAndIsPinned(long userId,boolean isPinned) {
+        return bookRepository.findByUserIdAndIsPinned(userId,isPinned);
     }
 }

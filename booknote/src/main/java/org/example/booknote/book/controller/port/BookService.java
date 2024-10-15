@@ -11,5 +11,5 @@ public interface BookService {
     Book create(BookCreate bookCreate);
     Book update(long id,BookUpdate bookUpdate);
     Book delete(long id);
-    List<Book> getBooksByUserId(long userId);
+    List<Book> getBooksByUserIdAndIsPinned(long userId,boolean isPinned);
 }

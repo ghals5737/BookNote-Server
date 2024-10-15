@@ -1,5 +1,6 @@
 package org.example.booknote.book.controller.response;
 
+import com.fasterxml.jackson.annotation.JsonFormat;
 import lombok.Builder;
 import lombok.Getter;
 import org.example.booknote.book.domain.Book;
@@ -12,7 +13,9 @@ public record BookResponse(
         String title,
         boolean isPinned,
         UserResponse user,
+        @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "yyyy-MM-dd HH:mm:ss", timezone = "Asia/Seoul")
         LocalDateTime createAt,
+        @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "yyyy-MM-dd HH:mm:ss", timezone = "Asia/Seoul")
         LocalDateTime updateAt
 ) {
     public static BookResponse from(Book book) {

@@ -9,6 +9,6 @@ public interface BookRepository {
     Book save(Book book);
     Book getById(long id);
     Optional<Book> findById(long id);
-    List<Book> findByUserId(long userId);
+    List<Book> findByUserIdAndIsPinned(long userId,boolean isPinned);
     Book delete(Book book);
 }

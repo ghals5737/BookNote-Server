@@ -30,8 +30,8 @@ public class BookRepositoryImpl implements BookRepository {
     }
 
     @Override
-    public List<Book> findByUserId(long userId) {
-        return bookJpaRepository.findByUser_IdAndIsDeleted(userId,false).stream().map(BookEntity::toModel).toList();
+    public List<Book> findByUserIdAndIsPinned(long userId,boolean isPinned) {
+        return bookJpaRepository.findByUser_IdAndIsDeletedAndIsPinned(userId,false,isPinned).stream().map(BookEntity::toModel).toList();
     }
 
     @Override

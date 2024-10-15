@@ -41,10 +41,10 @@ public class BookController {
     }
 
     @GetMapping("/users/{id}")
-    public ResponseEntity<List<BookResponse>> getByUserId(@PathVariable long id){
+    public ResponseEntity<List<BookResponse>> getByUserId(@PathVariable long id,@RequestParam boolean isPinned){
         return ResponseEntity
                 .ok()
-                .body(bookService.getBooksByUserId(id).stream().map(BookResponse::from).toList());
+                .body(bookService.getBooksByUserIdAndIsPinned(id,isPinned).stream().map(BookResponse::from).toList());
     }
 
     @DeleteMapping("/{id}")
