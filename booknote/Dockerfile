@@ -2,7 +2,7 @@
 FROM  --platform=linux/amd64 gradle:7.5.1-jdk18 AS build
 
 WORKDIR /app/booknote
-COPY ./booknote .
+COPY . .
 RUN chmod +x ./gradlew
 RUN ./gradlew clean build -x test --no-daemon
 
