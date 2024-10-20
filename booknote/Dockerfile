@@ -1,6 +1,15 @@
 # Stage 1: Build the Spring Boot application using Gradle
 FROM  --platform=linux/amd64 gradle:7.5.1-jdk18 AS build
 
+ARG DB_URL
+ARG DB_USER_NAME
+ARG DB_PASS_WORD
+ARG REDIS_HOST
+ARG REDIS_PORT
+ARG KAFKA_HOST
+ARG NAVER_CLIENT_ID
+ARG NAVER_CLIENT_SECRET
+
 WORKDIR /app/booknote
 COPY . .
 RUN chmod +x ./gradlew
