@@ -2,8 +2,7 @@ spring:
   application:
     name: booknote
   datasource:
-    url:
-      ${DB_URL}
+    url:      ${DB_URL}
     username: ${DB_USER_NAME}
     password: ${DB_PASS_WORD}
     driver-class-name: com.mysql.cj.jdbc.Driver
