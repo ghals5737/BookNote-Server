@@ -22,16 +22,16 @@ jobs:
     - name: Build Docker image
       run: |
         cd booknote
-        docker build . -t registry.booknote.site/booknote-backend:latest
-      env:
-        DB_URL: ${{ secrets.DB_URL }}
-        DB_USER_NAME: ${{ secrets.DB_USER_NAME }}
-        DB_PASS_WORD: ${{ secrets.DB_PASS_WORD }}
-        REDIS_HOST: ${{ secrets.REDIS_HOST }}
-        REDIS_PORT: ${{ secrets.REDIS_PORT }}
-        KAFKA_HOST: ${{ secrets.KAFKA_HOST }}
-        NAVER_CLIENT_ID: ${{ secrets.NAVER_CLIENT_ID }}
-        NAVER_CLIENT_SECRET: ${{ secrets.NAVER_CLIENT_SECRET }}
+        docker build . \
+          --build-arg DB_URL=${{ secrets.DB_URL }} \
+          --build-arg DB_USER_NAME=${{ secrets.DB_USER_NAME }} \
+          --build-arg DB_PASS_WORD=${{ secrets.DB_PASS_WORD }} \
+          --build-arg REDIS_HOST=${{ secrets.REDIS_HOST }} \
+          --build-arg REDIS_PORT=${{ secrets.REDIS_PORT }} \
+          --build-arg KAFKA_HOST=${{ secrets.KAFKA_HOST }} \
+          --build-arg NAVER_CLIENT_ID=${{ secrets.NAVER_CLIENT_ID }} \
+          --build-arg NAVER_CLIENT_SECRET=${{ secrets.NAVER_CLIENT_SECRET }} \
+          -t registry.booknote.site/booknote-backend:latest
 
     - name: Push Docker image
       run: docker push registry.booknote.site/booknote-backend:latest
