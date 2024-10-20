@@ -32,7 +32,9 @@ public class JwtAuthenticationFilter extends OncePerRequestFilter {
 
         String url=request.getRequestURI();
 
+        System.out.println("======================================");
         System.out.println(url);
+        System.out.println("======================================");
 
         if(url.equals("/api/users/login")||url.equals("/api/users/refresh")){
             filterChain.doFilter(request, response); // 필터 체인을 계속 진행
