@@ -12,5 +12,14 @@ FROM openjdk:18-jdk-alpine
 WORKDIR /app
 COPY --from=build /app/booknote/build/libs/booknote-0.0.1-SNAPSHOT.jar /app/booknote.jar
 
+ENV DB_URL=${DB_URL}
+ENV DB_USER_NAME=${DB_USER_NAME}
+ENV DB_PASS_WORD=${DB_PASS_WORD}
+ENV REDIS_HOST=${REDIS_HOST}
+ENV REDIS_PORT=${REDIS_PORT}
+ENV KAFKA_HOST=${KAFKA_HOST}
+ENV NAVER_CLIENT_ID=${NAVER_CLIENT_ID}
+ENV NAVER_CLIENT_SECRET=${NAVER_CLIENT_SECRET}
+
 EXPOSE 8080
 CMD ["java", "-jar", "/app/booknote.jar"]

@@ -6,15 +6,15 @@ import lombok.RequiredArgsConstructor;
 import org.example.booknote.common.domain.exception.ResourceNotFoundException;
 import org.example.booknote.common.service.port.ClockHolder;
 import org.example.booknote.user.controller.port.UserService;
+import org.example.booknote.user.domain.Token;
 import org.example.booknote.user.domain.User;
 import org.example.booknote.user.domain.UserCreate;
-import org.example.booknote.user.domain.UserLogin;
-import org.example.booknote.user.infrastructure.SessionRedisRepositoryImpl;
 import org.example.booknote.user.service.port.SessionRedisRepository;
 import org.example.booknote.user.service.port.UserRepository;
 import org.example.booknote.user.util.JwtUtil;
 import org.springframework.stereotype.Service;
 
+import java.util.Objects;
 import java.util.Optional;
 import java.util.concurrent.TimeUnit;
 
@@ -29,41 +29,34 @@ public class UserServiceImpl implements UserService {
 
     @Override
     public User getUserById(long id) {
-        return userRepository.findById(id).orElseThrow(()->new ResourceNotFoundException("Users",id));
+        return userRepository.findById(id).orElseThrow(() -> new ResourceNotFoundException("Users", id));
     }
 
     @Override
     public User create(UserCreate userCreate) {
-        User user=User.from(userCreate,clockHolder);
+        User user = User.from(userCreate, clockHolder);
         return userRepository.save(user);
     }
 
     @Override
-    public String login(UserCreate userCreate) {
+    public Token login(UserCreate userCreate) {
         Optional<User> existingUser = userRepository.findByEmail(userCreate.email());
 
         if (existingUser.isEmpty()) {
             User newUser = User.from(userCreate, clockHolder);
             User savedUser = userRepository.save(newUser);
 
-            return tokenCreate(savedUser, 1000*60*60*6);
+            return generateTokens(savedUser);
         }
 
         User user = existingUser.get();
-
         String redisToken = tokenFindById(String.valueOf(user.id()));
 
         if (redisToken == null) {
-            redisToken = tokenCreate(user, 1000*60*60*6);
+            return generateTokens(user);
         }
 
-        return redisToken;
-    }
-
-
-    @Override
-    public User findByEmail(String email) {
-        return userRepository.findByEmail(email).orElseThrow(()->new ResourceNotFoundException("Users",email));
+        return generateTokens(user);
     }
 
     @Override
@@ -72,8 +65,8 @@ public class UserServiceImpl implements UserService {
     }
 
     @Override
-    public String tokenCreate(User user,int duration) {
-        String token=jwtUtil.generateToken(user,duration);
+    public String tokenCreate(User user, int duration) {
+        String token = jwtUtil.generateToken(user, duration);
         sessionRedisRepository.setToken(
                 String.valueOf(user.id()),
                 token,
@@ -84,6 +77,42 @@ public class UserServiceImpl implements UserService {
     }
 
     @Override
+    public String refreshAccessToken(Token token) {
+        User convertUser = this.tokenConvertUser(token.access_token());
+        Claims claims = jwtUtil.extractAllClaims(token.refresh_token());
+        String userId = claims.getSubject();
+
+        if(this.isTokenExpired(token.refresh_token())){
+            return null;
+        }
+
+        String storedRefreshToken = sessionRedisRepository.getRefreshToken(userId);
+        if (storedRefreshToken == null || !storedRefreshToken.equals(token.refresh_token())) {
+            return null;
+        }
+
+        User user = getUserById(Long.parseLong(userId));
+
+        if(convertUser.id()!=user.id()||
+            !convertUser.email().equals(user.email())||
+            !convertUser.name().equals(user.email())){
+            return null;
+        }
+
+        return jwtUtil.generateToken(user, 1000 * 60 * 60);
+    }
+
+    public Token generateTokens(User user) {
+        String accessToken = jwtUtil.generateToken(user, 1000 * 60 * 60);
+        String refreshToken = jwtUtil.generateRefreshToken(user, 1000 * 60 * 60 * 24 * 7);
+
+        sessionRedisRepository.setToken(String.valueOf(user.id()), accessToken, 1000 * 60 * 60, TimeUnit.MILLISECONDS);
+        sessionRedisRepository.setRefreshToken(String.valueOf(user.id()), refreshToken, 1000 * 60 * 60 * 24 * 7, TimeUnit.MILLISECONDS);
+
+        return new Token(accessToken,refreshToken);
+    }
+
+    @Override
     public boolean isTokenExpired(String token) {
         return jwtUtil.isTokenExpired(token);
     }
@@ -91,55 +120,37 @@ public class UserServiceImpl implements UserService {
     @Override
     public boolean isUserAuthorized(String token) {
         try {
-            // 1. 토큰 만료 여부 확인
             if (this.isTokenExpired(token)) {
-                return false;  // 토큰이 만료되면 인증 실패
+                return false;
             }
 
-            // 2. 토큰에서 사용자 정보 변환
             User user = this.tokenConvertUser(token);
             if (user == null) {
-                return false;  // 토큰에서 사용자 정보를 추출하지 못하면 인증 실패
+                return false;
             }
 
-            // 3. Redis에서 토큰 조회
             String redisToken = this.tokenFindById(String.valueOf(user.id()));
-            if (redisToken == null) {
-                // 4. Redis에 없으면 DB에서 사용자 확인
-                Optional<User> userInDb = userRepository.findById(user.id());
-                return userInDb.isPresent();  // DB에도 사용자가 없으면 인증 실패
+            if(redisToken==null){
+                return false;
             }
-
-            // 인증 성공
             return true;
 
         } catch (Exception e) {
-            // 예외가 발생한 경우 인증 실패 처리
             return false;
         }
     }
 
-
     @Override
     public User tokenConvertUser(String token) {
-        Claims claims= jwtUtil.extractAllClaims(token);
-
-        Object idObject = claims.get("id");
-        Long id = null;
-
-        if (idObject instanceof Integer) {
-            id = ((Integer) idObject).longValue();
-        } else if (idObject instanceof Long) {
-            id = (Long) idObject;
-        }
-
+        Claims claims = jwtUtil.extractAllClaims(token);
         return new User(
-                id,
+                ((Integer) claims.get("id")).longValue(),
                 (String) claims.get("email"),
                 (String) claims.get("name"),
                 (String) claims.get("picture"),
-                clockHolder.now(),
-                clockHolder.now()
+                null,
+                null
         );
     }
 }
+

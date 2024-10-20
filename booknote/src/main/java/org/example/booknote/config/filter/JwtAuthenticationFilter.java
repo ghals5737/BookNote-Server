@@ -9,6 +9,7 @@ import jakarta.servlet.http.Cookie;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
 import org.example.booknote.user.controller.port.UserService;
+import org.example.booknote.user.domain.Token;
 import org.springframework.http.HttpHeaders;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.web.filter.OncePerRequestFilter;
@@ -31,19 +32,27 @@ public class JwtAuthenticationFilter extends OncePerRequestFilter {
 
         String url=request.getRequestURI();
 
-        if(url.equals("/api/users/login")){
+        if(url.equals("/api/users/login")||url.equals("/api/users/refresh")){
             filterChain.doFilter(request, response); // 필터 체인을 계속 진행
             return;
         }
 
-        Optional<String> token = Arrays.stream(cookies)
+        Optional<String> access_token = Arrays.stream(cookies)
                 .filter(cookie -> "access_token".equals(cookie.getName())) // 쿠키 이름 필터링
                 .map(Cookie::getValue) // 값 추출
                 .findFirst();
 
-        if(token.isEmpty()||!userService.isUserAuthorized(token.get())){
+        Optional<String> refresh_token = Arrays.stream(cookies)
+                .filter(cookie -> "refresh_token".equals(cookie.getName())) // 쿠키 이름 필터링
+                .map(Cookie::getValue) // 값 추출
+                .findFirst();
+
+        if(!(access_token.isPresent()&&refresh_token.isPresent())){
             response.setStatus(HttpServletResponse.SC_UNAUTHORIZED);
-            response.getWriter().write("Missing or invalid Authorization header");
+        }
+
+        if(!userService.isUserAuthorized(access_token.get())){
+            response.setStatus(HttpServletResponse.SC_UNAUTHORIZED);
         }
         filterChain.doFilter(request, response);
     }

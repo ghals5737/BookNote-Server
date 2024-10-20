@@ -24,25 +24,32 @@ public class JwtUtil {
         return Keys.hmacShaKeyFor(keyBytes);
     }
 
-
-    // JWT 토큰 생성
-    public String generateToken(User user,int duration) {
+    // JWT 액세스 토큰 생성
+    public String generateToken(User user, int duration) {
         Map<String, Object> claims = new HashMap<>();
         claims.put("id", user.id());
         claims.put("name", user.name());
         claims.put("email", user.email());
         claims.put("picture", user.picture());
 
-        return createToken(claims, String.valueOf(user.id()),duration);
+        return createToken(claims, String.valueOf(user.id()), duration);
     }
 
-    public String createToken(Map<String, Object> claims, String subject,int duration) {
+    // JWT 리프레시 토큰 생성
+    public String generateRefreshToken(User user, int duration) {
+        Map<String, Object> claims = new HashMap<>();
+        claims.put("id", user.id());
+
+        return createToken(claims, String.valueOf(user.id()), duration);
+    }
+
+    public String createToken(Map<String, Object> claims, String subject, int duration) {
         return Jwts.builder()
                 .setClaims(claims)
                 .setSubject(subject)
                 .setIssuedAt(new Date(System.currentTimeMillis()))
-                .setExpiration(new Date(System.currentTimeMillis() + duration))  // 1시간 유효기간
-                .signWith(getSigningKey())
+                .setExpiration(new Date(System.currentTimeMillis() + duration))
+                .signWith(getSigningKey(), SignatureAlgorithm.HS256)
                 .compact();
     }
 
@@ -50,7 +57,7 @@ public class JwtUtil {
     public Claims extractAllClaims(String token) {
         return Jwts.parserBuilder()
                 .setSigningKey(getSigningKey())
-                .setAllowedClockSkewSeconds(1000L *60*60*24*1000)
+                .setAllowedClockSkewSeconds(60*60*24*30)  // 허용 시간 차이 60초
                 .build()
                 .parseClaimsJws(token)
                 .getBody();
@@ -62,7 +69,8 @@ public class JwtUtil {
 
     // JWT 토큰이 만료되었는지 확인
     public Boolean isTokenExpired(String token) {
-        return extractAllClaims(token).getExpiration().before(new Date(System.currentTimeMillis()));
+        return extractAllClaims(token).getExpiration().before(new Date());
     }
 }
+
 

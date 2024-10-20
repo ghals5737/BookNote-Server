@@ -1,5 +1,6 @@
 package org.example.booknote.user.controller.port;
 
+import org.example.booknote.user.domain.Token;
 import org.example.booknote.user.domain.User;
 import org.example.booknote.user.domain.UserCreate;
 import org.example.booknote.user.domain.UserLogin;
@@ -7,13 +8,13 @@ import org.example.booknote.user.domain.UserLogin;
 public interface UserService {
     User getUserById(long id);
     User create(UserCreate userCreate);
-    String login(UserCreate userCreate);
-    User findByEmail(String email);
+    Token login(UserCreate userCreate);
     String tokenFindById(String id);
     String tokenCreate(User user,int duration);
     boolean isTokenExpired(String token);
     boolean isUserAuthorized(String token);
     User tokenConvertUser(String token);
+    String refreshAccessToken(Token token);
 }
 
 
