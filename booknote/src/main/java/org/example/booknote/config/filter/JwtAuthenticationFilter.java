@@ -37,6 +37,10 @@ public class JwtAuthenticationFilter extends OncePerRequestFilter {
             return;
         }
 
+        if(cookies==null){
+            response.setStatus(HttpServletResponse.SC_UNAUTHORIZED);
+        }
+
         Optional<String> access_token = Arrays.stream(cookies)
                 .filter(cookie -> "access_token".equals(cookie.getName())) // 쿠키 이름 필터링
                 .map(Cookie::getValue) // 값 추출
