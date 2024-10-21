@@ -4,6 +4,6 @@ import com.fasterxml.jackson.annotation.JsonProperty;
 import lombok.Builder;
 import lombok.Getter;
 
-public record BookCreate(long userId,String title,boolean isPinned) {
+public record BookCreate(long userId,String title,boolean isPinned,String image,int order) {
 
 }

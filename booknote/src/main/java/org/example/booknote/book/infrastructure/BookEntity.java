@@ -28,6 +28,11 @@ public class BookEntity {
     @Column(nullable = false)
     private boolean isDeleted;
 
+    private String image;
+
+    @Column(name = "`order`")
+    private int order;
+
     @ManyToOne
     @JoinColumn(name="user_id")
     private UserEntity user;
@@ -44,6 +49,8 @@ public class BookEntity {
         bookEntity.title=book.title();
         bookEntity.isPinned=book.isPinned();
         bookEntity.isDeleted=false;
+        bookEntity.image=book.image();
+        bookEntity.order=book.order();
         bookEntity.user=UserEntity.from(book.user());
         bookEntity.createAt=book.createAt();
         bookEntity.updateAt=book.updateAt();
@@ -56,6 +63,8 @@ public class BookEntity {
         bookEntity.title=book.title();
         bookEntity.isPinned=book.isPinned();
         bookEntity.isDeleted=true;
+        bookEntity.image=book.image();
+        bookEntity.order=book.order();
         bookEntity.user=UserEntity.from(book.user());
         bookEntity.createAt=book.createAt();
         bookEntity.updateAt=book.updateAt();
@@ -63,6 +72,6 @@ public class BookEntity {
     }
 
     public Book toModel(){
-        return new Book(id,title,user.toModel(),isPinned,createAt,updateAt);
+        return new Book(id,title,user.toModel(),isPinned,image,order,createAt,updateAt);
     }
 }

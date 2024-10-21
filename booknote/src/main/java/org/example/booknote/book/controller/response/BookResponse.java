@@ -13,6 +13,8 @@ public record BookResponse(
         String title,
         boolean isPinned,
         UserResponse user,
+        String image,
+        int order,
         @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "yyyy-MM-dd HH:mm:ss", timezone = "Asia/Seoul")
         LocalDateTime createAt,
         @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "yyyy-MM-dd HH:mm:ss", timezone = "Asia/Seoul")
@@ -24,6 +26,8 @@ public record BookResponse(
                 book.title(),
                 book.isPinned(),
                 UserResponse.from(book.user()),
+                book.image(),
+                book.order(),
                 book.createAt(),
                 book.updateAt()
         );

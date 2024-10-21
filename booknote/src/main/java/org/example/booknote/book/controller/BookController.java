@@ -5,6 +5,7 @@ import lombok.RequiredArgsConstructor;
 import org.example.booknote.book.controller.port.BookService;
 import org.example.booknote.book.controller.response.BookResponse;
 import org.example.booknote.book.domain.BookCreate;
+import org.example.booknote.book.domain.BookOrderChange;
 import org.example.booknote.book.domain.BookUpdate;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -53,4 +54,13 @@ public class BookController {
                 .ok()
                 .body(BookResponse.from(bookService.delete(id)));
     }
+
+    @PutMapping("/orders/{id}")
+    public ResponseEntity<String> updateOrder(@PathVariable long id, @RequestBody List<BookOrderChange> bookOrderChanges){
+        bookService.cacheBookOrderChange(id,bookOrderChanges);
+        return ResponseEntity
+                .ok()
+                .body("");
+    }
+
 }

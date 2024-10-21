@@ -10,6 +10,8 @@ public record Book(
         String title,
         User user,
         boolean isPinned,
+        String image,
+        int order,
         LocalDateTime createAt,
         LocalDateTime updateAt
 ) {
@@ -20,6 +22,8 @@ public record Book(
                 bookCreate.title(),
                 user,
                 bookCreate.isPinned(),
+                bookCreate.image(),
+                bookCreate.order(),
                 clockHolder.now(),
                 clockHolder.now()
         );
@@ -31,6 +35,8 @@ public record Book(
                 bookUpdate.title(),
                 this.user,
                 bookUpdate.isPinned(),
+                this.image,
+                this.order,
                 this.createAt,
                 clockHolder.now()
         );
@@ -42,6 +48,8 @@ public record Book(
                 this.title(),
                 this.user,
                 this.isPinned(),
+                this.image(),
+                this.order(),
                 this.createAt,
                 clockHolder.now()
         );
