@@ -30,6 +30,12 @@ public class JwtAuthenticationFilter extends OncePerRequestFilter {
     protected void doFilterInternal(HttpServletRequest request, HttpServletResponse response, FilterChain filterChain) throws ServletException, IOException {
         Cookie[] cookies = request.getCookies();
 
+        if(cookies==null){
+            response.setStatus(HttpServletResponse.SC_UNAUTHORIZED);
+            filterChain.doFilter(request, response);
+            return;
+        }
+
         String url=request.getRequestURI();
 
         if(url.equals("/api/users/login")||url.equals("/api/users/refresh")){
@@ -37,9 +43,7 @@ public class JwtAuthenticationFilter extends OncePerRequestFilter {
             return;
         }
 
-        if(cookies==null){
-            cookies = new Cookie[0];
-        }
+
 
         Optional<String> access_token = Arrays.stream(cookies)
                 .filter(cookie -> "access_token".equals(cookie.getName())) // 쿠키 이름 필터링
