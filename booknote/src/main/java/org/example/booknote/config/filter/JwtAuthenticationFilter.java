@@ -38,7 +38,7 @@ public class JwtAuthenticationFilter extends OncePerRequestFilter {
         }
 
         if(cookies==null){
-            response.setStatus(HttpServletResponse.SC_UNAUTHORIZED);
+            cookies = new Cookie[0];
         }
 
         Optional<String> access_token = Arrays.stream(cookies)
