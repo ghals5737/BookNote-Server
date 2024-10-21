@@ -18,8 +18,10 @@ public class ActivityController {
     private final ActivityService activityService;
 
     @PostMapping
-    public void create(@RequestBody Activity activity) throws JsonProcessingException {
+    public ResponseEntity<String> create(@RequestBody Activity activity) throws JsonProcessingException {
         activityService.create(activity);
+
+        return ResponseEntity.ok("messege pub success");
     }
 
     @GetMapping
