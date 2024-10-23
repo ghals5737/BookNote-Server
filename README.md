@@ -28,26 +28,22 @@
 
 ### 아키텍쳐 
 
-![booknote-architecture](../images/README/booknote-architecture.png)
-
-
+![booknote-architecture](booknote-architecture.png)
 
 ### 기능 구현 및 트러블 슈팅
 
-- JWT를 활용한 실시간 인증 인가 처리 및 세션 관리
-  - 인증 인가 시퀸스 다이어 그램
+- JWT를 활용한 실시간 인증 인가 처리
 - Naver Open API를 이용한 책검색
-  - redis를 활용한 api호출 최소화
 - 활동 기록 조회 기능
-  - kafka를 사용한 이벤트 로그 저장 mongodb 사용
 - 책,메모 CRUD 구현
 - 책순서 업데이트 기능
-  - scheduler를 이용한 최적화
 - JUNIT 테스트
 
 ### ERD
 
-#### 시퀸스 다이어 그램
+![booknote-erd](booknote-erd.png)
+
+#### 
 
 
 
