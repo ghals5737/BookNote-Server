@@ -30,7 +30,7 @@
 
 ### 아키텍쳐 
 
-![booknote-architecture](booknote-architecture.png)
+![booknote-architecture](booknote-architecture-1729683390823-4.png)
 
 ### 기능 구현 및 트러블 슈팅
 
