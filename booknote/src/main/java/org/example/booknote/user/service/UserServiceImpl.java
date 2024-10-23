@@ -50,11 +50,6 @@ public class UserServiceImpl implements UserService {
         }
 
         User user = existingUser.get();
-        String redisToken = tokenFindById(String.valueOf(user.id()));
-
-        if (redisToken == null) {
-            return generateTokens(user);
-        }
 
         return generateTokens(user);
     }
