@@ -4,17 +4,19 @@
 
 ### 프로젝트 소개
 
-책을 읽는 동안 떠오르는 다양한 생각들을 손쉽게 기록하고, 체계적으로 정리할 수 있는 웹 서비스입니다. 
+**URl:** https://booknote.site
 
-거기에 백엔드 rest api 프로젝트이빈다.
+책을 읽는 동안 떠오르는 다양한 생각들을 손쉽게 기록하고, 체계적으로 정리할 수 있는 웹 서비스입니다. 
 
 #### GitHub
 
-
+- FrontEnd :  [BookNote Front](https://github.com/ghals5737/BookNote-Front/tree/main/booknote)
+- BackEnd :  [BookNote BackEnd](https://github.com/ghals5737/BookNote-Server/tree/main/booknote)
+- Activity-Log :  [BookNote Activity Log](https://github.com/ghals5737/BookNote-LogServer)
 
 #### 화면 구성
 
-
+![image-20241023203310467](image-20241023203310467.png)
 
 ### 기술스택
 
